@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cbe-prototype",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [".claude/serve.py", "5181"],
+      "port": 5181
+    }
+  ]
+}
