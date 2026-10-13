@@ -84,7 +84,7 @@
 .h-flag { display: flex; align-items: center; gap: 5px; color: var(--warn); font-weight: 500; font-size: 11.5px; }
 .h-flag .ico { width: 12px; height: 12px; }
 .state-tile .kpi-l { gap: 9px; }
-.state-bar { display: flex; height: 8px; border-radius: 99px; overflow: hidden; gap: 2px; min-width: 120px; }
+.state-bar { display: flex; height: 8px; border-radius: 99px; overflow: hidden; gap: 2px; min-width: 70px; }
 .state-bar span { display: block; }
 .al-row .li-r { min-width: 150px; }
 

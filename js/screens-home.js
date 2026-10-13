@@ -89,7 +89,7 @@ CB.S.adminHome = function () {
   var clientRows = CB.CLIENTS.map(function (c) {
     var cs = sites.filter(function (s) { return s.client === c.id; }), cc = CB.siteCounts(cs);
     var ca = al.filter(function (a) { return a.client === c.id && a.state !== 'cleared'; }).length;
-    return '<tr class="click" data-go="/map?client=' + c.id + '"><td><div class="row" style="gap:10px;flex-wrap:nowrap"><span class="cust-logo" style="background:' + c.color + '">' + c.mark + '</span><div><div class="name">' + c.name + '</div><div class="sub">' + c.region + '</div></div></div></td>' +
+    return '<tr class="click" data-go="/map?client=' + c.id + '"><td><div class="name">' + c.name + '</div><div class="sub">' + c.region + '</div></td>' +
       '<td class="num">' + cs.length + '</td><td><div class="state-bar">' + ['alarm', 'warning', 'comms', 'normal'].map(function (k) { return cc[k] ? '<span style="flex:' + cc[k] + ';background:' + CB.STATE[k].color + '" data-tip="' + CB.esc(CB.STATE[k].label + ': ' + cc[k]) + '"></span>' : ''; }).join('') + '</div></td>' +
       '<td class="num">' + (ca ? '<span class="st st-bad">' + ca + '</span>' : '<span class="muted">0</span>') + '</td></tr>';
   }).join('');
