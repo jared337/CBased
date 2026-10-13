@@ -2,6 +2,8 @@
 
 Built on Rayven. A navigable front-end prototype built from `CBased_Build_Spec.md` and `CBased_Prototype_Scope.md`, in the same design system as the Place Performance prototype. It's plain HTML, CSS and JavaScript with no build step, and uses sample data only (no backend).
 
+**Live prototype: https://jared337.github.io/Cbase/**
+
 ## Run it
 
 ```bash
