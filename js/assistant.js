@@ -288,7 +288,8 @@ CB.ai.render = function () {
       return '<div class="ai-msg bot"><div class="ai-av">' + CB.icon('sparkle', 'ico') + '</div><div class="ai-ans"' + (i === a.messages.length - 1 && a.busy ? ' id="ai-live"' : '') + '>' + (m.content ? CB.ai.md(m.content) : '<span class="ai-typing"><i></i><i></i><i></i></span>') +
         (m.note ? '<div class="ai-note">' + m.note + '</div>' : '') + '</div></div>';
     }).join('');
-    var welcome = !a.messages.length ? '<div class="ai-hello"><div class="ai-orb">' + CB.icon('sparkle', 'ico') + '</div><h3>Ask about any site or device</h3><p>Live readings, alarms, dust, noise, blasting, water, weather, batteries and comms, answered from ' + (CB.state.role === 'admin' ? 'the whole portfolio' : 'your sites') + '.</p></div>' : '';
+    var welcome = !a.messages.length ? '<div class="ai-hello"><div class="ai-orb">' + CB.icon('sparkle', 'ico') + '</div><h3>Ask about any site or device</h3><p>Live readings, alarms, dust, noise, blasting, water, weather, batteries and comms, answered from ' + (CB.state.role === 'admin' ? 'the whole portfolio' : 'your sites') + '.</p>' +
+      '<div class="ai-scope-note">' + CB.icon('info', 'ico') + '<div><b>Not in scope</b>This assistant is a concept preview only. It is not part of the Phase 1 or Phase 2 scope for this proposal.</div></div></div>' : '';
     body = '<div class="ai-thread" id="ai-thread">' + welcome + msgs + '</div>' +
       '<div class="ai-suggest">' + CB.ai.suggestions().map(function (q) { return '<button class="ai-chip" data-action="ai-ask" data-q="' + CB.esc(q) + '">' + CB.esc(q) + '</button>'; }).join('') + '</div>' +
       '<form class="ai-input" id="ai-form"><textarea id="ai-q" rows="1" placeholder="Ask anything about ' + CB.esc(ctxLabel) + '…"' + (a.busy ? ' disabled' : '') + '></textarea><button class="ai-send" type="submit" aria-label="Send"' + (a.busy ? ' disabled' : '') + '>' + CB.icon('trend', 'ico') + '</button></form>';
