@@ -38,6 +38,7 @@ CB.setState = function (patch) {
   try { localStorage.setItem(STORE_KEY, JSON.stringify({ role: CB.state.role, refresh: CB.state.refresh })); } catch (e) { /* ignore */ }
   CB.renderPreview();
   if (roleChanged) {
+    CB.ai.reset();
     CB.toast('Now viewing as ' + CB.ROLES[CB.state.role].label);
     var onLogin = CB.current && CB.current.route.bare;
     if (onLogin) CB.render(true);
@@ -132,6 +133,7 @@ CB.shell = function (route, content) {
     '<nav class="top-crumbs">' + crumbHtml + '</nav>' +
     '<div class="top-right">' +
     '<div class="role-switch" title="Prototype role switcher (no login needed)"><span class="rs-l">View as</span>' + CB.seg('role', [['admin', CB.icon('shield') + 'CBE Admin'], ['client', CB.icon('user') + 'Client']], CB.state.role) + '</div>' +
+    '<button class="ai-btn" data-action="ai-toggle" title="Ask the Monitoring Assistant (Ctrl+J)">' + CB.icon('sparkle') + 'Ask AI</button>' +
     '<span class="live-pill"><span class="pulse"></span>Live</span>' +
     '<button class="icon-btn" data-go="/alarms" title="Alarms">' + CB.icon('bell') + (activeAlarms ? '<span class="dot"></span>' : '') + '</button>' +
     '<div class="menu" id="user-menu"><button class="avatar" data-action="menu-toggle" style="' + (c ? 'background:' + c.color : '') + '">' + CB.initials(role.who) + '</button>' +
@@ -264,3 +266,4 @@ window.addEventListener('hashchange', function () { CB.render(); });
 CB.renderPreview();
 if (!location.hash) history.replaceState(null, '', '#/login');
 CB.render();
+CB.ai.render();

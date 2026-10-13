@@ -21,6 +21,13 @@ Use **View as** in the header (or the floating **Prototype** pill) to switch bet
 
 The login page is white-labelled per role too. No credentials are checked.
 
+## Monitoring Assistant (Ask AI)
+
+Click **Ask AI** in the header (or press Ctrl+J) to ask plain-language questions about any site, datalogger, parameter or alarm, for example "How is Jerrys Plains Dust & Met?", "Are any loggers offline?" or "Where is dust highest?". It knows which site you're looking at, and its answers link to the relevant screens. It only sees the data the current role can see, so the Client view is limited to Hunter Valley Operations.
+
+- **With an Anthropic API key** (gear icon in the panel), answers stream from Claude Opus 5.5 using the official `@anthropic-ai/sdk` loaded in the browser. Each question sends a snapshot of the live data. The key is stored only in that browser. That's fine for a prototype; a production build should call Claude from a server.
+- **Without a key**, built-in answers are computed from the same data.
+
 ## Phase markers
 
 - Phase 1 screens and features are fully built.
@@ -47,6 +54,7 @@ Values aren't random. `js/data.js` models each parameter with a diurnal cycle, s
 | `js/screens-analysis.js` | Chart Explorer, Dashboards |
 | `js/screens-ops.js` | Alarms & Events, Reports, Data Export & API, Webcam Gallery, Noise Audio |
 | `js/screens-admin.js` | Alarm & Notification Setup, Clients & Users, Sites & Parameters, Data Sources, Platform Settings |
+| `js/assistant.js` | Monitoring Assistant: Claude streaming, role-scoped data context, built-in answers, chat panel |
 | `js/app.js` | Router, shell, role switcher, live ticker |
 
 ## Image credits
