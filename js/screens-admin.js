@@ -405,18 +405,30 @@ CB.S.adminSources = function () {
     var n = CB.sum(p[1].map(function (k) { return byP[k] || 0; }));
     return '<div class="proto"><div class="li-ico tint-blue">' + CB.icon(p[2]) + '</div><div><b>' + p[0] + '</b><span>' + p[3] + '</span></div><em>' + n + '</em></div>';
   }).join('') + '</div>';
-  var ok = srcs.filter(function (x) { return x.status === 'ok'; }).length;
+  var filt = CB.dsStatus || '';
+  var shown = srcs.filter(function (x) { return !filt || x.status === filt; });
+  var tiles = '<div class="grid g-4 ds-tiles">' + [['', 'All sources', 'Every configured data source', null], ['ok', 'Receiving', 'Payloads arriving on schedule', CB.STATE.normal.color], ['delayed', 'Delayed', 'Late, but still receiving', CB.STATE.warning.color], ['error', 'No data', 'Nothing for 3+ intervals, comms alarm raised', CB.STATE.alarm.color]].map(function (t) {
+    var n = t[0] ? srcs.filter(function (x) { return x.status === t[0]; }).length : srcs.length;
+    return '<button class="card ds-tile' + (filt === t[0] ? ' on' : '') + '" data-action="ds-filter" data-v="' + t[0] + '" aria-pressed="' + (filt === t[0]) + '"><div class="kpi"><div class="kpi-l">' + (t[3] ? '<span class="dot-lg" style="background:' + t[3] + '"></span>' : CB.icon('plug', 'ico')) + t[1] + '</div><div class="kpi-v">' + n + '</div><div class="kpi-d flat">' + t[2] + '</div></div></button>';
+  }).join('') + '</div>';
   CB.onMount(function () { if (q.site && CB.site(q.site)) CB.sourceEdit(q.site); });
   return CB.pageHead({ title: 'Data Sources & Integration', sub: 'How data arrives for each site: device, protocol, format and cadence. Every payload received is stored as-is and retained, then parsed.',
     actions: '<button class="btn btn-primary" data-action="source-new">' + CB.icon('plus') + 'New data source</button>' }) +
-    '<div class="grid g-4"><div class="card">' + CB.kpi('Sources receiving', ok + '<small>of ' + srcs.length + '</small>', { icon: 'check' }) + '</div><div class="card">' + CB.kpi('Delayed / no data', srcs.length - ok, { icon: 'alert', sub: srcs.filter(function (x) { return x.status !== 'ok'; }).map(function (x) { return x.site.name; }).join(', ') }) + '</div><div class="card">' + CB.kpi('Payloads · 24 h', CB.fmt(CB.sum(srcs.map(function (x) { return x.payloads; }))), { icon: 'db', sub: 'All stored raw before parsing' }) + '</div><div class="card">' + CB.kpi('Telemetry', srcs.filter(function (x) { return /satellite/i.test(x.site.telemetry); }).length + '<small>satellite</small> ' + srcs.filter(function (x) { return /cellular/i.test(x.site.telemetry); }).length + '<small>cellular</small>', { icon: 'satellite' }) + '</div></div>' +
+    tiles +
     '<div class="mt">' + protos + '</div>' +
-    CB.card({ title: 'Sources', icon: 'plug', flush: true, cls: 'mt', sub: 'Click a source to configure it, map fields and see live ingestion', body: '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Site</th><th>Client</th><th>Datalogger</th><th>Protocol</th><th>Format</th><th>Telemetry</th><th class="num">Cadence</th><th class="num">Last received</th><th class="num">24 h</th><th>Status</th></tr></thead><tbody>' + srcs.map(function (x) {
+    CB.card({ title: 'Sources', icon: 'plug', flush: true, cls: 'mt', attrs: ' id="ds-table"', sub: (filt ? 'Showing ' + shown.length + ' of ' + srcs.length + ' · ' + { ok: 'Receiving', delayed: 'Delayed', error: 'No data' }[filt] + ' only · ' : '') + 'Click a source to configure it, map fields and see live ingestion', actions: filt ? '<button class="btn btn-sm" data-action="ds-filter" data-v="">' + CB.icon('close') + 'Clear filter</button>' : '', body: '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Site</th><th>Client</th><th>Datalogger</th><th>Protocol</th><th>Format</th><th>Telemetry</th><th class="num">Cadence</th><th class="num">Last received</th><th class="num">24 h</th><th>Status</th></tr></thead><tbody>' + shown.map(function (x) {
       return '<tr class="click" data-action="source-edit" data-id="' + x.site.id + '"><td class="name">' + x.site.name + '</td><td>' + CB.clientChip(x.site.client) + '</td><td class="small">' + x.site.logger + '</td><td><span class="chip">' + CB.icon(protoIcon[x.site.protocol] || 'plug') + x.site.protocol + '</span></td><td class="small">' + x.format + '</td><td class="small">' + x.site.telemetry + '</td><td class="num">' + x.site.cadence + ' min</td><td class="num">' + CB.ago(x.last) + '</td><td class="num">' + x.completeness + '%</td><td>' + CB.status(x.status) + '</td></tr>';
     }).join('') + '</tbody></table></div>' }) +
     '<div class="grid g-2 mt">' + CB.card({ title: 'Supported dataloggers', icon: 'cpu', body: '<div class="dev-grid">' + [['Campbell Scientific', 'CR1000X, CR300, CR6 · TOA5 / CSIXML'], ['Cellvisor', 'CV-Noise, CV-Cam · JSON webhook'], ['MACE', 'Envirolog · CSV'], ['Halytech', 'SpiderMAX · CSV / email'], ['dataTaker', 'DT80 · CSV'], ['YDOC', 'ML-417 · JSON / MQTT']].map(function (d) { return '<div class="dev"><b>' + d[0] + '</b><span>' + d[1] + '</span></div>'; }).join('') + '</div>' }) +
     '<div class="stack">' + CB.ctx('<b>Never lose data.</b> Every payload is written to immutable raw storage before parsing, so data can be re-processed after a mapping or calibration change (see Platform Settings). Duplicates are detected; late and out-of-order data is merged.') +
     CB.placeholder('Automatic structure detection', 'Detect the layout of a new file or payload and suggest field-to-parameter mappings automatically.', { icon: 'sparkle' }) + '</div></div>';
+};
+CB.actions['ds-filter'] = function (el) {
+  var v = el.getAttribute('data-v');
+  CB.dsStatus = CB.dsStatus === v ? '' : v;
+  CB.render(true);
+  var t = document.getElementById('ds-table'); // bring the table into view only when it's below the fold
+  if (t && CB.dsStatus && t.getBoundingClientRect().top > window.innerHeight * 0.7) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 CB.actions['source-edit'] = function (el) { CB.sourceEdit(el.getAttribute('data-id')); };
 CB.actions['source-new'] = function () { CB.sourceEdit(null); };
