@@ -443,5 +443,5 @@ CB.sourceEdit = function (id) {
         return '<tr><td class="mono small">' + ({ Cellvisor: 1, YDOC: 1 }[x.brand] ? k : k.toUpperCase() + (p.dir ? '_D1_WVT' : k === 'rain' ? '_Tot' : '_Avg')) + '</td><td class="muted">→</td><td>' + CB.select(fields.map(function (f) { return [f, CB.PARAMS[f].name]; }), k, '') + '</td><td class="small muted">' + p.unit + '</td></tr>';
       }).join('') + '</tbody></table></div></div>' +
       '</div><div><div class="field"><span>Live ingestion · last payloads</span><div class="tbl-wrap"><table class="tbl ingest-tbl"><tbody>' + recent + '</tbody></table></div><small>' + x.payloads + ' payloads in 24 h · ' + x.completeness + '% complete · raw payloads retained</small></div></div></div>',
-    footer: '<button class="btn" data-action="ov-close">Cancel</button><button class="btn" data-action="toast" data-msg="Connection OK · test payload received and parsed">' + CB.icon('refresh') + 'Test connection</button><button class="btn btn-primary" data-action="save-close" data-msg="Data source saved">Save source</button>' });
+    footer: '<button class="btn" data-action="ov-close">Cancel</button><button class="btn btn-primary" data-action="save-close" data-msg="Data source saved">Save source</button>' });
 };
