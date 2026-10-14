@@ -21,11 +21,12 @@ CB.S.alarmSetup = function () {
   var as = CB.as;
   var rules = CB.RULES.filter(function (r) { return (!as.monitor || r.monitor === as.monitor) && (!as.client || r.client === as.client || (as.client && r.client == null)); });
   var en = CB.RULES.filter(function (r) { return r.enabled; }).length;
+  var crit = CB.ALARMS.filter(function (x) { return x.sev === 'critical' && x.state !== 'cleared'; });
   var kpis = '<div class="grid g-4">' +
     '<div class="card">' + CB.kpi('Alarm rules', CB.RULES.length, { icon: 'bolt', sub: en + ' enabled' }) + '</div>' +
     '<div class="card">' + CB.kpi('Triggered · 30 days', CB.sum(CB.RULES.map(function (r) { return r.fired30; })), { icon: 'bell' }) + '</div>' +
     '<div class="card">' + CB.kpi('SMS delivered · 30 days', '11,842', { icon: 'sms', sub: '100% · 0 silently blocked · 17 retried' }) + '</div>' +
-    '<div class="card">' + CB.kpi('Median SMS delivery', '6<small>s</small>', { icon: 'clock', sub: 'queued → delivered' }) + '</div></div>';
+    '<div class="card' + (crit.length ? ' kc-alarm' : '') + '">' + CB.kpi('Critical alarms', crit.length, { icon: 'alert', sub: crit.filter(function (x) { return x.state === 'active'; }).length + ' unacknowledged · ' + CB.ALARMS.filter(function (x) { return x.sev === 'critical'; }).length + ' in last 21 days' }) + '</div></div>';
   var sevChips = function (r) { return r.tiers.map(function (t) { return '<span class="st ' + CB.SEV[t.sev].cls + '">' + (t.v == null ? CB.SEV[t.sev].label : t.op + ' ' + t.v) + '</span>'; }).join(' '); };
   var maxF = Math.max.apply(null, CB.RULES.map(function (r) { return r.fired30; }).concat([1]));
   var table = CB.card({ flush: true, body: '<div class="filters">' + CB.seg('as-mon', [['', 'All']].concat(Object.keys(CB.MONITORS).map(function (k) { return [k, CB.MONITORS[k]]; })), as.monitor) +
