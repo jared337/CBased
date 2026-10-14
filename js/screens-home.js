@@ -294,6 +294,7 @@ CB.actions['ack'] = function (el, e) {
     title: 'Acknowledge alarm', chips: CB.sevChip(a.sev), size: 'sm',
     sub: a.id + ' · ' + CB.esc(a.name),
     body: '<dl class="kv"><dt>Site</dt><dd>' + s.name + '</dd><dt>Triggered</dt><dd>' + CB.dateTime(new Date(a.t)) + ' (' + CB.ago(a.mins) + ')</dd><dt>Value</dt><dd>' + (a.param ? CB.fmtUnit(a.param, a.value) + ' · threshold ' + a.threshold : 'No data for ' + a.threshold) + '</dd><dt>Rule</dt><dd>' + rule.id + ' · ' + CB.MONITORS[rule.monitor] + '</dd></dl>' +
+      '<div class="sec-title" style="margin-top:18px">Notifications sent</div><div class="deliv">' + a.notes.map(function (n) { return '<div class="dv"><span class="chip">' + n.chan + '</span><span class="mono">' + n.to + '</span></div>'; }).join('') + '</div>' +
       '<label class="field mt"><span>Comment' + (needComment ? ' <span class="chip chip-bad">required for critical alarms</span>' : ' (optional)') + '</span><textarea class="input" id="ack-note" rows="3" placeholder="What was done? e.g. water cart dispatched, works paused"></textarea></label>',
     footer: '<button class="btn" data-action="ov-close">Cancel</button><button class="btn btn-primary" data-action="ack-confirm" data-id="' + a.id + '" data-req="' + (needComment ? 1 : 0) + '">' + CB.icon('check') + 'Acknowledge</button>'
   });
