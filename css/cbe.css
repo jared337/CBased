@@ -543,3 +543,4 @@ body:not(.wl) { --accent: #1f74c4; --accent-2: #185f9f; --accent-soft: #eaf3fc; 
 .ai-scope-note { display: flex; gap: 10px; text-align: left; margin: 18px auto 0; max-width: 340px; font-size: 12.5px; line-height: 1.5; color: #92400e; background: var(--warn-soft); border: 1px solid #fde68a; border-radius: 12px; padding: 10px 12px; }
 .ai-scope-note .ico { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
 .ai-scope-note b { display: block; font-weight: 600; color: #78350f; }
+.ingest-tbl td { white-space: nowrap; padding: 8px 10px; }

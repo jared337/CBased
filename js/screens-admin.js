@@ -421,24 +421,15 @@ CB.actions['source-edit'] = function (el) { CB.sourceEdit(el.getAttribute('data-
 CB.actions['source-new'] = function () { CB.sourceEdit(null); };
 CB.sourceEdit = function (id) {
   var s = id ? CB.site(id) : CB.SITES[0], x = CB.source(s), isNew = !id;
-  var protoMap = { 'SFTP': 'FTP / SFTP', 'FTP': 'FTP / SFTP', 'HTTP webhook': 'HTTP / webhook', 'Email / IMAP': 'Email / IMAP', 'S3': 'Amazon S3', 'MQTT': 'MQTT', 'CBE pipeline push': 'CBE pipeline push' };
   var fields = s.params.filter(function (k) { return !CB.PARAMS[k].calc; });
-  var recent = CB.range(6).map(function (i) { var t = CB.lastTime(s) - i * s.cadence * CB.MIN; return '<tr><td class="mono small">' + CB.dateTime(new Date(t)) + ':00</td><td class="small">' + (x.format.indexOf('JSON') >= 0 ? 'payload.json' : s.id.toUpperCase() + '_' + CB.stamp24(new Date(t)).replace(':', '') + '.dat') + '</td><td class="num small">' + (1 + CB.hash(s.id + i) % 3) + ' rec</td><td class="num small">' + (2 + CB.hash(s.id + 'k' + i) % 9) + '.' + (CB.hash(s.id + i) % 9) + ' KB</td><td><span class="st st-ok">Stored · parsed</span></td></tr>'; }).join('');
+  var recent = CB.range(6).map(function (i) { var t = CB.lastTime(s) - i * s.cadence * CB.MIN; return '<tr><td class="mono small">' + CB.stamp24(new Date(t)) + ':00</td><td class="small">' + (x.format.indexOf('JSON') >= 0 ? 'payload.json' : s.id.toUpperCase() + '_' + CB.stamp24(new Date(t)).replace(':', '') + '.dat') + '</td><td class="num small">' + (1 + CB.hash(s.id + i) % 3) + ' rec</td><td class="num small">' + (2 + CB.hash(s.id + 'k' + i) % 9) + '.' + (CB.hash(s.id + i) % 9) + ' KB</td><td><span class="st st-ok">Stored · parsed</span></td></tr>'; }).join('');
   CB.overlay.open({ title: isNew ? 'New data source' : 'Data source · ' + s.name, size: 'xl', chips: isNew ? '' : CB.status(x.status), sub: isNew ? 'Connect a datalogger or feed to a site' : s.logger + ' · ' + s.protocol + ' · ' + s.cadence + '-min',
-    body: '<div class="grid g-2"><div class="form">' +
-      '<label class="field"><span>Site</span>' + CB.select(CB.SITES.map(function (y) { return [y.id, y.name + ' · ' + CB.client(y.client).short]; }), s.id, 'class="select"') + '</label>' +
-      '<div class="field"><span>Transport protocol</span>' + CB.seg('noop', CB.PROTOCOLS, protoMap[s.protocol]) + '</div>' +
-      '<label class="field"><span>Endpoint</span><div class="row nowrap"><input class="input mono" value="' + CB.esc(x.endpoint) + '" readonly><button class="btn btn-sm" data-action="toast" data-msg="Copied">' + CB.icon('copy') + '</button></div></label>' +
-      '<div class="form g-2"><label class="field"><span>Credentials</span><input class="input mono" value="••••••••••••" readonly></label><label class="field"><span>Telemetry</span>' + CB.select(['4G cellular', 'Iridium satellite', 'NBN / fixed', 'LoRaWAN'], s.telemetry, 'class="select"') + '</label></div>' +
-      '<div class="form g-2"><label class="field"><span>Datalogger type</span>' + CB.select(CB.LOGGERS, x.brand, 'class="select"') + '</label><label class="field"><span>File format</span>' + CB.select(['TOA5 (.dat)', 'CSV', 'CSV (DT80 format)', 'JSON', 'CSIXML'], x.format, 'class="select"') + '</label></div>' +
-      '<div class="field"><span>Ingestion cadence</span>' + CB.seg('noop', [[1, '1 min'], [5, '5 min'], [10, '10 min'], [15, '15 min']], s.cadence) + '<small>Comms alarm raises after 3 missed intervals.</small></div>' +
-      '<div class="field"><span>Pathway</span>' + CB.switchHtml('Data is pushed from CBE\'s own pipeline (already validated)', s.protocol === 'CBE pipeline push') + '</div>' +
-      '<div class="row">' + CB.p2Btn('Auto-detect structure', 'sparkle') + '</div></div>' +
-      '<div><div class="field"><span>Field mapping</span><div class="tbl-wrap map-tbl"><table class="tbl"><thead><tr><th>Incoming field</th><th></th><th>Parameter</th><th>Unit</th></tr></thead><tbody>' + fields.map(function (k) {
+    body: '<label class="field" style="max-width:420px"><span>Site</span>' + CB.select(CB.SITES.map(function (y) { return [y.id, y.name + ' · ' + CB.client(y.client).short]; }), s.id, 'class="select"') + '</label>' +
+      '<div class="grid g-2 mt"><div><div class="field"><span>Field mapping</span><div class="tbl-wrap map-tbl"><table class="tbl"><thead><tr><th>Incoming field</th><th></th><th>Parameter</th><th>Unit</th></tr></thead><tbody>' + fields.map(function (k) {
         var p = CB.PARAMS[k];
         return '<tr><td class="mono small">' + ({ Cellvisor: 1, YDOC: 1 }[x.brand] ? k : k.toUpperCase() + (p.dir ? '_D1_WVT' : k === 'rain' ? '_Tot' : '_Avg')) + '</td><td class="muted">→</td><td>' + CB.select(fields.map(function (f) { return [f, CB.PARAMS[f].name]; }), k, '') + '</td><td class="small muted">' + p.unit + '</td></tr>';
       }).join('') + '</tbody></table></div></div>' +
-      '<div class="field mt"><span>Live ingestion · last payloads</span><div class="tbl-wrap"><table class="tbl"><tbody>' + recent + '</tbody></table></div><small>' + x.payloads + ' payloads in 24 h · ' + x.completeness + '% complete · raw payloads retained</small></div></div></div>',
+      '</div><div><div class="field"><span>Live ingestion · last payloads</span><div class="tbl-wrap"><table class="tbl ingest-tbl"><tbody>' + recent + '</tbody></table></div><small>' + x.payloads + ' payloads in 24 h · ' + x.completeness + '% complete · raw payloads retained</small></div></div></div>',
     footer: '<button class="btn" data-action="ov-close">Cancel</button><button class="btn" data-action="toast" data-msg="Connection OK · test payload received and parsed">' + CB.icon('refresh') + 'Test connection</button><button class="btn btn-primary" data-action="save-close" data-msg="Data source saved">Save source</button>' });
 };
 
