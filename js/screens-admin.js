@@ -25,7 +25,7 @@ CB.S.alarmSetup = function () {
   var kpis = '<div class="grid g-4">' +
     '<div class="card">' + CB.kpi('Alarm rules', CB.RULES.length, { icon: 'bolt', sub: en + ' enabled' }) + '</div>' +
     '<div class="card">' + CB.kpi('Triggered · 30 days', CB.sum(CB.RULES.map(function (r) { return r.fired30; })), { icon: 'bell' }) + '</div>' +
-    '<div class="card">' + CB.kpi('SMS delivered · 30 days', '11,842', { icon: 'sms', sub: '100% · 0 silently blocked · 17 retried' }) + '</div>' +
+    '<div class="card">' + CB.kpi('SMS delivered · 30 days', '11,842', { icon: 'sms' }) + '</div>' +
     '<div class="card' + (crit.length ? ' kc-alarm' : '') + '">' + CB.kpi('Critical alarms', crit.length, { icon: 'alert', sub: crit.filter(function (x) { return x.state === 'active'; }).length + ' unacknowledged · ' + CB.ALARMS.filter(function (x) { return x.sev === 'critical'; }).length + ' in last 21 days' }) + '</div></div>';
   var sevChips = function (r) { return r.tiers.map(function (t) { return '<span class="st ' + CB.SEV[t.sev].cls + '">' + (t.v == null ? CB.SEV[t.sev].label : t.op + ' ' + t.v) + '</span>'; }).join(' '); };
   var maxF = Math.max.apply(null, CB.RULES.map(function (r) { return r.fired30; }).concat([1]));
