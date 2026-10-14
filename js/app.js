@@ -18,8 +18,7 @@ CB.ROUTES = [
   { re: /^\/admin\/alarms$/, fn: 'alarmSetup', screen: 'alarm_setup' },
   { re: /^\/admin\/clients$/, fn: 'adminClients', screen: 'admin_clients' },
   { re: /^\/admin\/sites$/, fn: 'adminSites', screen: 'admin_sites' },
-  { re: /^\/admin\/sources$/, fn: 'adminSources', screen: 'admin_data_sources' },
-  { re: /^\/admin\/settings$/, fn: 'adminSettings', screen: 'admin_settings' }
+  { re: /^\/admin\/sources$/, fn: 'adminSources', screen: 'admin_data_sources' }
 ];
 
 CB.go = function (path) { if (location.hash === '#' + path) CB.render(); else location.hash = path; };

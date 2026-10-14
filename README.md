@@ -53,7 +53,7 @@ Values aren't random. `js/data.js` models each parameter with a diurnal cycle, s
 | `js/screens-home.js` | Login, Portfolio Overview, Client Home, Site Map, Site Detail |
 | `js/screens-analysis.js` | Chart Explorer, Dashboards |
 | `js/screens-ops.js` | Alarms & Events, Reports, Data Export & API, Webcam Gallery, Noise Audio |
-| `js/screens-admin.js` | Alarm & Notification Setup, Clients & Users, Sites & Parameters, Data Sources, Platform Settings |
+| `js/screens-admin.js` | Alarm & Notification Setup, Clients & Users, Sites & Parameters, Data Sources |
 | `js/assistant.js` | Monitoring Assistant: Claude streaming, role-scoped data context, built-in answers, chat panel |
 | `js/app.js` | Router, shell, role switcher, live ticker |
 

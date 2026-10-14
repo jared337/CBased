@@ -33,8 +33,7 @@ CB.SCREENS = [
   { id: 'alarm_setup', name: 'Alarm & Notification Setup', phase: 1, roles: ['admin'], route: '/admin/alarms', icon: 'bolt', section: 'admin' },
   { id: 'admin_clients', name: 'Clients & Users', phase: 1, roles: ['admin'], route: '/admin/clients', icon: 'users', section: 'admin' },
   { id: 'admin_sites', name: 'Sites & Parameters', phase: 1, roles: ['admin'], route: '/admin/sites', icon: 'tree', section: 'admin' },
-  { id: 'admin_data_sources', name: 'Data Sources', phase: 1, roles: ['admin'], route: '/admin/sources', icon: 'plug', section: 'admin' },
-  { id: 'admin_settings', name: 'Platform Settings', phase: 1, roles: ['admin'], route: '/admin/settings', icon: 'settings', section: 'admin' }
+  { id: 'admin_data_sources', name: 'Data Sources', phase: 1, roles: ['admin'], route: '/admin/sources', icon: 'plug', section: 'admin' }
 ];
 CB.screen = function (id) { return CB.SCREENS.find(function (s) { return s.id === id; }); };
 

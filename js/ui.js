@@ -139,7 +139,7 @@ CB.query = function () {
 /* ---------------- Screen map (reviewer aid) ---------------- */
 CB.SCREEN_MAP = [
   ['login', ['admin_home', 'client_home'], []],
-  ['admin_home', ['site_map', 'alarm_console', 'dashboards', 'reports', 'admin_clients', 'admin_sites', 'admin_data_sources', 'admin_settings'], ['Role switcher']],
+  ['admin_home', ['site_map', 'alarm_console', 'dashboards', 'reports', 'admin_clients', 'admin_sites', 'admin_data_sources'], ['Role switcher']],
   ['client_home', ['site_map', 'dashboards', 'site_detail', 'reports', 'data_export', 'alarm_console'], ['Role switcher']],
   ['site_map', ['site_detail'], ['Site quick-glance']],
   ['site_detail', ['chart_explorer', 'media_gallery', 'audio_browser'], ['Acknowledge alarm']],
@@ -153,8 +153,7 @@ CB.SCREEN_MAP = [
   ['audio_browser', [], ['Audio player']],
   ['admin_clients', [], ['User editor', 'Client editor']],
   ['admin_sites', ['admin_data_sources'], ['Site editor', 'Parameter editor', 'Template editor']],
-  ['admin_data_sources', [], ['Source editor']],
-  ['admin_settings', [], []]
+  ['admin_data_sources', [], ['Source editor']]
 ];
 CB.screenRoute = function (id) {
   if (id === 'login') return '/login';
@@ -171,7 +170,7 @@ CB.actions['screen-map'] = function () {
         row[2].map(function (o) { return '<div class="smap-open"><span class="open-tag overlay">Overlay</span>' + o + '</div>'; }).join('') + '</div>' : '') + '</div>';
   }).join('');
   CB.overlay.open({
-    title: 'Screen map', size: 'lg', chips: '<span class="chip">17 screens</span>',
+    title: 'Screen map', size: 'lg', chips: '<span class="chip">16 screens</span>',
     sub: 'Every screen and what opens from it (drill-down = full screen, overlay = panel). Click a screen to jump to it. Greyed screens belong to the other role.',
     body: '<div class="smap">' + cards + '</div>'
   });

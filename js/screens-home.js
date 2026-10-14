@@ -97,7 +97,7 @@ CB.S.adminHome = function () {
     CB.Maps.fit(m, pts, 20);
   });
 
-  var quick = [['/map', 'map', 'Site map'], ['/alarms', 'bell', 'Alarms'], ['/dashboards', 'dash', 'Dashboards'], ['/reports', 'file', 'Reports'], ['/admin/clients', 'users', 'Clients & users'], ['/admin/sites', 'tree', 'Sites & parameters'], ['/admin/sources', 'plug', 'Data sources'], ['/admin/settings', 'settings', 'Platform settings']];
+  var quick = [['/map', 'map', 'Site map'], ['/alarms', 'bell', 'Alarms'], ['/dashboards', 'dash', 'Dashboards'], ['/reports', 'file', 'Reports'], ['/admin/clients', 'users', 'Clients & users'], ['/admin/sites', 'tree', 'Sites & parameters'], ['/admin/sources', 'plug', 'Data sources']];
   return CB.pageHead({ title: 'Portfolio Overview', sub: 'All ' + CB.CLIENTS.length + ' clients, ' + CB.sum(CB.CLIENTS.map(function (c) { return c.projects.length; })) + ' projects and ' + sites.length + ' sites. Updated <span data-clock>' + CB.stamp24(new Date()) + '</span>.',
     actions: CB.p2Btn('Set as my default landing view', 'home') }) +
     health +

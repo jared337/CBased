@@ -75,7 +75,7 @@ CB.ai.context = function () {
   if (here) ctx.site_being_viewed = { id: here.id, name: here.name };
   if (isAdmin) {
     ctx.alarm_rules = CB.RULES.map(function (r) { return { id: r.id, name: r.name, monitor: CB.MONITORS[r.monitor], client: r.client ? CB.client(r.client).short : 'all', enabled: r.enabled, logic: CB.ruleSummary(r), days: r.days, window: r.window, triggered_30d: r.fired30, email_recipients: r.email.length, sms_recipients: r.sms.length }; });
-    ctx.routes.alarm_setup = '#/admin/alarms'; ctx.routes.data_sources = '#/admin/sources'; ctx.routes.sites_setup = '#/admin/sites'; ctx.routes.clients = '#/admin/clients'; ctx.routes.settings = '#/admin/settings';
+    ctx.routes.alarm_setup = '#/admin/alarms'; ctx.routes.data_sources = '#/admin/sources'; ctx.routes.sites_setup = '#/admin/sites'; ctx.routes.clients = '#/admin/clients';
   }
   return ctx;
 };
