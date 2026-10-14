@@ -35,18 +35,14 @@ CB.S.login = function () {
   var pitch = c
     ? '<p class="login-eyebrow"><span class="live-dot"></span>' + c.domain + '</p><h1>Environmental monitoring for ' + c.short + '.</h1><p>Live dust, noise, weather and water data from your monitoring network, with alarms, reports and downloads in one place.</p>'
     : '<p class="login-eyebrow"><span class="live-dot"></span>Environmental Monitoring Specialists</p><h1>Every station, every alarm, one platform.</h1><p>Real-time meteorological, water, air quality and noise monitoring across CBE\'s client portfolio. Never lose data. Never miss an alarm.</p>';
-  var stat = c
-    ? '<div class="login-stat"><span class="live-dot"></span><div><small>Jerrys Plains Dust & Met · live</small><b><span data-live="hvo-jp|pm10_1h" data-live-unit>' + CB.fmtUnit('pm10_1h', CB.latest(CB.site('hvo-jp'), 'pm10_1h')) + '</span> PM10 (1-hr)</b></div></div>'
-    : '<div class="login-stat"><span class="live-dot"></span><div><small>Portfolio · live</small><b>' + CB.SITES.length + ' stations · ' + CB.CLIENTS.length + ' clients</b></div></div>';
   return '<div class="login-wrap ' + (c ? 'is-client' : 'is-admin') + '" style="' + (c ? '--brand:' + c.color + ';--brand2:' + c.color2 : '') + '"><div class="login-art">' + art + head +
-    '<div class="login-pitch">' + pitch + stat + '</div>' +
+    '<div class="login-pitch">' + pitch + '</div>' +
     '<div class="powered">' + (c ? 'Monitoring delivered by CBased Environmental' : 'Singleton · Mudgee · Gunnedah · Built on Rayven') + '</div></div>' +
     '<div class="login-form"><div class="login-card">' +
     '<div class="login-switch"><span class="tiny muted">Preview login as</span>' + CB.seg('role', [['admin', 'CBE Admin'], ['client', 'Client (white-label)']], CB.state.role) + '</div>' +
     '<h2>Sign in</h2><p class="muted">' + (c ? 'Welcome to ' + c.short + ' Environmental Monitoring.' : 'Welcome back to the CBased monitoring platform.') + '</p>' +
     '<div class="form mt"><label class="field"><span>Email</span><input class="input" type="email" value="' + (c ? 'daniel.hughes@hvo.com.au' : 'sarah.mitchell@cbased.com.au') + '" autocomplete="off"></label>' +
-    '<label class="field"><span class="row-between"><span>Password</span><a class="small" href="#" data-action="toast" data-msg="Password reset link sent">Forgot password?</a></span><input class="input" type="password" value="prototype" autocomplete="off"></label>' +
-    '<label class="switch small"><input type="checkbox" checked><span class="track"></span>Keep me signed in</label>' +
+    '<label class="field"><span>Password</span><input class="input" type="password" value="prototype" autocomplete="off"></label>' +
     '<button class="btn btn-brand" data-go="/home">Sign in</button>' +
     '<div class="tiny muted" style="text-align:center">Prototype: no credentials are checked. Use the role switcher to change view.</div></div>' +
     '</div></div></div>';
